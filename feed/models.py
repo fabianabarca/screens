@@ -1,5 +1,4 @@
 from django.contrib.gis.db import models
-from gtfs.models import Stop
 
 # Create your models here.
 
@@ -24,15 +23,15 @@ class Screen(models.Model):
         max_length=10,
         choices=ORIENTATION_CHOICES,
         default="landscape",
-        blank=True, null=True,
+        blank=True,
+        null=True,
     )
     ratio = models.CharField(
-        max_length=10, 
-        choices=RATIO_CHOICES, 
-        default="16:9", 
-        blank=True, null=True
+        max_length=10, choices=RATIO_CHOICES, default="16:9", blank=True, null=True
     )
-    size = models.PositiveIntegerField(help_text="diagonal en pulgadas", blank=True, null=True)
+    size = models.PositiveIntegerField(
+        help_text="diagonal en pulgadas", blank=True, null=True
+    )
     has_audio = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -40,12 +39,3 @@ class Screen(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class ScreenStops(models.Model):
-    id = models.AutoField(primary_key=True)
-    screen = models.ForeignKey(Screen, on_delete=models.CASCADE)
-    stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.screen} - {self.stop}"

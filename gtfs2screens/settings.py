@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "daphne",
     "channels",
     "website.apps.WebsiteConfig",
-    "gtfs.apps.GtfsConfig",
     "realtime.apps.RealtimeConfig",
     "feed.apps.FeedConfig",
     "django_celery_results",
