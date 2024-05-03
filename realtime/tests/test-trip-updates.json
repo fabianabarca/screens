@@ -1,0 +1,89 @@
+{
+    "_comment": "GET datahub.bucr.digital/api/trip-updates?stop_id='2581'",
+    "data": {
+        "trip_updates": [
+            {
+                "stop_id": "2581",
+                "timestamp": 1714690529,
+                "trip": {
+                    "direction_id": 1,
+                    "route_id": "87",
+                    "start_date": "20240502",
+                    "start_time": "18:14:00",
+                    "trip_id": "61848892"
+                },
+                "vehicle": {
+                    "id": "y1986",
+                    "label": "1986"
+                },
+                "arrival_time": 1714690550,
+                "departure_time": 1714690550
+            },
+            {
+                "stop_id": "2581",
+                "timestamp": 1714690533,
+                "trip": {
+                    "direction_id": 1,
+                    "route_id": "87",
+                    "start_date": "20240502",
+                    "start_time": "19:05:00",
+                    "trip_id": "61848776"
+                },
+                "vehicle": {
+                    "id": "y2021"
+                },
+                "arrival_time": 1714691765,
+                "departure_time": 1714691765
+            },
+            {
+                "stop_id": "2581",
+                "timestamp": 1714690529,
+                "trip": {
+                    "direction_id": 1,
+                    "route_id": "88",
+                    "start_date": "20240502",
+                    "start_time": "18:59:00",
+                    "trip_id": "61848761"
+                },
+                "vehicle": {
+                    "id": "y2032"
+                },
+                "arrival_time": 1714691696,
+                "departure_time": 1714691696
+            },
+            {
+                "stop_id": "2581",
+                "timestamp": 1714690528,
+                "trip": {
+                    "direction_id": 1,
+                    "route_id": "87",
+                    "start_date": "20240502",
+                    "start_time": "19:25:00",
+                    "trip_id": "61848752"
+                },
+                "vehicle": {
+                    "id": "y2001"
+                },
+                "arrival_time": 1714693008,
+                "departure_time": 1714693008
+            },
+            {
+                "stop_id": "2581",
+                "timestamp": 1714690532,
+                "trip": {
+                    "direction_id": 1,
+                    "route_id": "87",
+                    "start_date": "20240502",
+                    "start_time": "18:39:00",
+                    "trip_id": "61848834"
+                },
+                "vehicle": {
+                    "id": "y2043",
+                    "label": "2043"
+                },
+                "arrival_time": 1714690813,
+                "departure_time": 1714690813
+            }
+        ]
+    }
+}

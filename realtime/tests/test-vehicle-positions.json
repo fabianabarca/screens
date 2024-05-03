@@ -1,0 +1,30 @@
+{
+    "_comment": "GET datahub.bucr.digital/api/vehicle-positions?trip_id='61848776'",
+    "data": {
+        "vehicle_positions": {
+            "current_status": "STOPPED_AT",
+            "current_stop_sequence": 29,
+            "occupancy_percentage": 0,
+            "occupancy_status": "MANY_SEATS_AVAILABLE",
+            "position": {
+                "bearing": 135,
+                "latitude": 42.37994,
+                "longitude": -71.09648
+            },
+            "stop_id": "2510",
+            "timestamp": 1714692573,
+            "trip": {
+                "direction_id": 1,
+                "route_id": "87",
+                "schedule_relationship": "SCHEDULED",
+                "start_date": "20240502",
+                "start_time": "19:05:00",
+                "trip_id": "61848776"
+            },
+            "vehicle": {
+                "id": "y2021",
+                "label": "2021"
+            }
+        }
+    }
+}
