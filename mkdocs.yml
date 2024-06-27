@@ -5,6 +5,7 @@ nav:
   - Arquitectura: architecture.md
   - Desarrollo: development.md
   - Sobre el proyecto: about.md
+  - Pantallas: screens.md
 
 extra_css:
   - stylesheets/extra.css

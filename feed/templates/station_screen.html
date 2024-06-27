@@ -1,5 +1,21 @@
 <h1>Ruta UCR</h1>
 
+¿Cuáles tablas hay que jalar? routes, trips
+
+Componentes visibles en la pantalla:
+
+- Nombre de la parada o estación
+- Hora actual
+- Info bit: tasa de actualización
+- Array: lista de viajes que pasarán por la parada (primeros N)
+    - Nombre/código de la ruta (L1, L2) route_short_name
+    - Nombre de la ruta route_long_name (tal vez no aparece)
+    - Destino de la ruta (Educación, Artes Plásticas...) trip_headsign
+    - Nivel de ocupación (primeros K, posiblemente solo uno): EMPTY, MANY_SEATS_AVAILABLE, FEW_SEATS_AVAILABLE, STANDING_ROOM_ONLY, CRUSHED_STANDING_ROOM_ONLY, FULL, NOT_ACCEPTING_PASSENGERS, NO_DATA_AVAILABLE, NOT_BOARDABLE: GET https://datahub.bucr.digital/api/vehicle-positions vehicle_occupancy_status
+    - Otra información (accesibilidad, etc.)
+    - Tiempo estimado de llegada (en minutos) GET https://datahub.bucr.digital/api/vehicle-positions?stop_id=23549 arrival_time (hacer el cálculo de la diferencia de tiempo)
+
+
 <p>Faltan <span id="time-remaining">{{ minutes }}</span> minutos para el bus</p>
 
 <p>
@@ -12,7 +28,7 @@
     // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
     // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
     // Crear un WebSocket 
-    const wsUrl = 'ws://' + window.location.host + '/ws/screen/{{ screen_id }}/';
+    const wsUrl = 'wss://' + window.location.host + '/ws/screen/{{ screen_id }}/';
     const screenSocket = new WebSocket(wsUrl);
 
     // Registrar la conexión abierta

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Screen
 import random
 
 # Create your views here.
@@ -13,11 +14,10 @@ def create_screen(request):
 
 
 def screen(request, screen_id):
-    seed = screen_id
-    random.seed(seed)
-    minutes = random.randint(0, 30)
-    context = {"screen_id": screen_id, "minutes": minutes}
-    return render(request, "screen.html", context)
+    screen = Screen.objects.get(screen_id=screen_id)
+    if screen.location == "stop":
+        context = {"screen": screen}
+        return render(request, "stop_screen.html", context)
 
 
 def edit_screen(request, screen_id):

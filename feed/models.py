@@ -13,11 +13,18 @@ class Screen(models.Model):
         ("16:9", "16:9"),
         ("16:10", "16:10"),
     ]
+    LOCATION_CHOICES = [
+        ("stop", "Parada única"),
+        ("station", "Estación con varias paradas"),
+        ("vehicle", "Pantalla en el vehículo"),
+    ]
 
     screen_id = models.CharField(max_length=100, primary_key=True)
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    location = models.PointField(blank=True, null=True)
+    location = models.CharField(max_length=10, choices=LOCATION_CHOICES, blank=True, null=True)
+    point = models.PointField(blank=True, null=True)
+    vehicle = models.CharField(max_length=100, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     orientation = models.CharField(
         max_length=10,

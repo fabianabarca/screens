@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pantallas informativa bUCR</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1><i class="bi bi-bus-front-fill"></i> {{ screen.name }}</h1>
+
+        <p>Actualizaciones cada minuto</p>
+
+        <table class="table">
+            <tr>
+                <td><span class="badge rounded-pill text-bg-primary">L1</span></td>
+                <td>Educación</td>
+                <td>
+                    <i class="bi bi-person-fill"></i>
+                    <i class="bi bi-person"></i>
+                    <i class="bi bi-person"></i>
+                </td>
+                <td>Ahora</td>
+            </tr>
+            <tr>
+                <td><span class="badge rounded-pill text-bg-primary">L2</span></td>
+                <td>Artes Plásticas</td>
+                <td>
+                    <i class="bi bi-person-fill"></i>
+                    <i class="bi bi-person-fill"></i>
+                    <i class="bi bi-person"></i>
+                </td>
+                <td><strong>9</strong> min</td>
+            </tr>
+            <tr>
+                <td><span class="badge rounded-pill text-bg-primary">L1</span></td>
+                <td>Educación</td>
+                <td>
+                    <i class="bi bi-person-fill"></i>
+                    <i class="bi bi-person"></i>
+                    <i class="bi bi-person"></i>
+                </td>
+                <td><strong>15</strong> min</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
+        // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
+        // Crear un WebSocket 
+        const wsUrl = 'wss://' + window.location.host + '/ws/screen/{{ screen_id }}/';
+        const screenSocket = new WebSocket(wsUrl);
+
+        // Registrar la conexión abierta
+        screenSocket.onopen = function (event) {
+            console.log('screens: Conexión abierta exitosamente en ' + wsUrl);
+        };
+
+        // Manejo de eventos de mensajes
+        screenSocket.onmessage = function (event) {
+            console.log('Mensaje recibido:', event.data);
+            const data = JSON.parse(event.data);
+            const message = data['message'];
+            if (message) {
+                document.getElementById('message').innerHTML = message;
+            }
+        };
+
+        window.addEventListener('beforeunload', function (event) {
+            screenSocket.close();
+        });
+    </script>
+</body>
+
+</html>
