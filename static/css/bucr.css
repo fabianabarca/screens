@@ -1,0 +1,36 @@
+/*********
+Tipografía
+*********/
+
+.title {
+    font-size: 6rem;
+    font-weight: 900;
+}
+
+.time {
+    font-size: 6rem;
+}
+
+/**********
+Colores UCR
+**********/
+
+.bg-celeste {
+    background-color: #00C0F3;
+}
+
+.bg-azul {
+    background-color: #005DA4;
+}
+
+.bg-verde {
+    background-color: #6DC067;
+}
+
+.bg-amarillo {
+    background-color: #FFE06A;
+}
+
+.bg-negro {
+    background-color: black;
+}
