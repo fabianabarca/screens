@@ -61,8 +61,9 @@ GET https://datahub.bucr.digital/api/stop-time-update?trip_update=trip_trip_id&s
         "trip_headsign": "Educación",
         "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 5,
-        "current_status": "IN_TRANSIT_TO"
+        "arrival_time": 0,
+        "current_stop_sequence": 23,
+        "current_status": "STOPPED_AT"
     },
     {
         "route_short_name": "L2",
@@ -70,8 +71,25 @@ GET https://datahub.bucr.digital/api/stop-time-update?trip_update=trip_trip_id&s
         "trip_headsign": "Artes Plásticas",
         "occupancy_status": "MANY_SEATS_AVAILABLE",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 7,
+        "arrival_time": 6,
+        "current_stop_sequence": 11,
         "current_status": "IN_TRANSIT_TO"
+    },
+    {
+        "route_short_name": "L1",
+        "route_long_name": "Bus UCR (L2) sin milla",
+        "trip_headsign": "Educación",
+        "occupancy_status": "MANY_SEATS_AVAILABLE",
+        "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
+        "arrival_time": 12,
+        "current_stop_sequence": 3,
+        "current_status": "INCOMING_AT"
     }
 ]
 ```
+
+Notas:
+
+- Un `arrival_time = 0` significa que el bus está en la parada o llegará dentro del margen de precisión de la estimación.
+- El `array` enviado debe estar ordenado según orden creciente de `arrival_time`.
+- Asunto de próximas llegadas para viajes en progreso versus viajes programados (`stop_times`).

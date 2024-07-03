@@ -15,6 +15,10 @@ Tipografía
 Colores UCR
 **********/
 
+.celeste {
+    color: #00C0F3;
+}
+
 .bg-celeste {
     background-color: #00C0F3;
 }
@@ -33,4 +37,19 @@ Colores UCR
 
 .bg-negro {
     background-color: black;
+}
+
+/**********
+Positioning
+**********/
+
+.fixed-bottom-right {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+.fixed-bottom-left {
+    position: fixed;
+    bottom: 0;
+    left: 0;
 }
