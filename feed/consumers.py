@@ -16,8 +16,8 @@ class ScreenConsumer(AsyncWebsocketConsumer):
     def activate_screen(self, screen_id):
         screen = Screen.objects.get(screen_id=screen_id)
         screen.is_active = True
-        print(f"Screen {screen_id} is now active")
         screen.save()
+        print(f"Screen {screen_id} is now active")
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
@@ -29,17 +29,16 @@ class ScreenConsumer(AsyncWebsocketConsumer):
     def deactivate_screen(self, screen_id):
         screen = Screen.objects.get(screen_id=screen_id)
         screen.is_active = False
-        print(f"Screen {screen_id} is now inactive")
         screen.save()
+        print(f"Screen {screen_id} is now inactive")
 
     async def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
         await self.channel_layer.group_send(
-            self.screen_group_name, {"type": "screen.message", "message": message}
+            self.screen_group_name, {"type": "screen_message", "message": message}
         )
 
     async def screen_message(self, event):
         message = event["message"]
-
         await self.send(text_data=json.dumps({"message": message}))

@@ -28,8 +28,11 @@
         <!-- ETA table -->
         <table id="eta-table" class="table display-3"></table>
 
-        <!-- Message -->
-        <div class="display-1 text-center" id="message"></div>
+        <!-- Alerta -->
+        <div class="display-1 text-center" id="alert"></div>
+
+        <!-- Prueba de WebSocket -->
+        <div class="text-center" id="message"></div>
 
         <!-- Footer
         <div class="fixed-bottom-left text-center p-5">
@@ -42,7 +45,9 @@
 
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Hora en pantalla -->
     <script>
         function showCurrentTime() {
             const options = {
@@ -61,6 +66,7 @@
         // Initialize the display
         showCurrentTime();
     </script>
+    <!-- Actualización con WebSockets -->
     <script>
         // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
         // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
@@ -87,6 +93,7 @@
             screenSocket.close();
         });
     </script>
+    <!-- Actualización de la tabla de ETA -->
     <script>
         data = [
             {
@@ -125,7 +132,7 @@
         nRows = Math.min(data.length, maxRows);
 
         if (nRows === 0) {
-            document.getElementById('message').innerHTML = 'No hay más buses hoy';
+            document.getElementById('alert').innerHTML = 'No hay más buses hoy';
         } else {
             for (let i = 0; i < nRows; i++) {
                 const row = data[i]; // Assuming array is ordered by ascending arrival_time
