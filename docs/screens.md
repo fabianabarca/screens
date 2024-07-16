@@ -53,43 +53,55 @@ GET https://datahub.bucr.digital/api/stop-time-update?trip_update=trip_trip_id&s
 
 ### Estructura del mensaje vía WebSockets
 
+Para una solicitud al *endpoint* `/next-trips` a las 15:16:00, entonces:
+
 ```json
 [
     {
+        "trip_id": "L1-33",
         "route_short_name": "L1",
         "route_long_name": "Bus UCR (L1) con milla",
         "trip_headsign": "Educación",
-        "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 0,
-        "current_stop_sequence": 23,
-        "current_status": "STOPPED_AT"
+        "arrival_time": "15:17:00",
+        "in_progress": true,
+        "journey": {
+            "position_in_shape": 0.465,
+            "current_stop_sequence": 23,
+            "current_status": "INCOMING_AT",
+            "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY"
+        }
     },
     {
+        "trip_id": "L2-12",
         "route_short_name": "L2",
         "route_long_name": "Bus UCR (L2) sin milla",
         "trip_headsign": "Artes Plásticas",
-        "occupancy_status": "MANY_SEATS_AVAILABLE",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 6,
-        "current_stop_sequence": 11,
-        "current_status": "IN_TRANSIT_TO"
+        "arrival_time": "15:23:00",
+        "in_progress": true,
+        "journey": {
+            "position_in_shape": 0.391,
+            "current_stop_sequence": 14,
+            "current_status": "STOPPED_AT",
+            "occupancy_status": "FEW_SEATS_AVAILABLE"
+        }
     },
     {
+        "trip_id": "L1-34",
         "route_short_name": "L1",
         "route_long_name": "Bus UCR (L2) sin milla",
         "trip_headsign": "Educación",
-        "occupancy_status": "MANY_SEATS_AVAILABLE",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 12,
-        "current_stop_sequence": 3,
-        "current_status": "INCOMING_AT"
+        "arrival_time": "15:34:00",
+        "in_progress": false
     }
 ]
 ```
 
 Notas:
 
-- Un `arrival_time = 0` significa que el bus está en la parada o llegará dentro del margen de precisión de la estimación.
+- Los minutos faltantes para la llegada de cada viaje son estimados con `arrival_time` y la hora actual.
+- "0 minutos" significa que el bus está en la parada o llegará dentro del margen de precisión de la estimación.
 - El `array` enviado debe estar ordenado según orden creciente de `arrival_time`.
-- Asunto de próximas llegadas para viajes en progreso versus viajes programados (`stop_times`).
+- Asunto de próximas llegadas para viajes en progreso versus viajes programados (`stop_times`). Nota: resuelto con `in_progress` y será evaluado del lado del servidor concentrador de datos en el API.
