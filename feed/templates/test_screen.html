@@ -31,9 +31,6 @@
         <!-- Alerta -->
         <div class="display-1 text-center" id="alert"></div>
 
-        <!-- Prueba de WebSocket -->
-        <div class="text-center" id="message"></div>
-
         <!-- Footer
         <div class="fixed-bottom-left text-center p-5">
             Hola
@@ -47,6 +44,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
     <!-- Hora en pantalla -->
     <script>
         function showCurrentTime() {
@@ -66,6 +64,7 @@
         // Initialize the display
         showCurrentTime();
     </script>
+
     <!-- Actualización con WebSockets -->
     <script>
         // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
@@ -82,10 +81,32 @@
         // Manejo de eventos de mensajes
         screenSocket.onmessage = function (event) {
             console.log('Mensaje recibido:', event.data);
-            const data = JSON.parse(event.data);
-            const message = data['message'];
-            if (message) {
-                document.getElementById('message').innerHTML = message;
+            const json = JSON.parse(event.data);
+            const data = json['message'];
+            if (data) {
+                console.log(typeof data);
+
+                maxRows = 3;
+                nRows = 3 // Math.min(data.length, maxRows);
+
+                if (nRows === 0) {
+                    document.getElementById('alert').innerHTML = 'No hay más buses hoy';
+                } else {
+                    for (let i = 0; i < nRows; i++) {
+                        const row = data[i]; // Assuming array is ordered by ascending arrival_time
+                        const etaTable = document.getElementById('eta-table');
+                        // If the size of the table is greater than zero, delete the i-th row
+                        if (etaTable.rows.length > i) {
+                            etaTable.deleteRow(i);
+                        }
+                        const newRow = etaTable.insertRow(i);
+                        newRow.innerHTML = `
+                            <td>${row.route_short_name}</td>
+                            <td>${row.trip_headsign}</td>                
+                            <td>${row.arrival_time === 0 ? '<strong>Ahora</strong>' : `<strong>${row.arrival_time}</strong> min`}</td>
+                        `;
+                    }
+                }
             }
         };
 
@@ -93,7 +114,8 @@
             screenSocket.close();
         });
     </script>
-    <!-- Actualización de la tabla de ETA -->
+
+    <!-- Actualización de la tabla de ETA
     <script>
         data = [
             {
@@ -145,7 +167,7 @@
             `;
             }
         }
-    </script>
+    </script> -->
 </body>
 
 </html>

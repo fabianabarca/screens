@@ -15,7 +15,7 @@
         "trip_headsign": "Artes Plásticas",
         "occupancy_status": "MANY_SEATS_AVAILABLE",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 6,
+        "arrival_time": 3,
         "current_stop_sequence": 11,
         "current_status": "IN_TRANSIT_TO"
     },
@@ -25,7 +25,7 @@
         "trip_headsign": "Educación",
         "occupancy_status": "MANY_SEATS_AVAILABLE",
         "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": 12,
+        "arrival_time": 9,
         "current_stop_sequence": 3,
         "current_status": "INCOMING_AT"
     }

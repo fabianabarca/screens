@@ -56,47 +56,76 @@ GET https://datahub.bucr.digital/api/stop-time-update?trip_update=trip_trip_id&s
 Para una solicitud al *endpoint* `/next-trips` a las 15:16:00, entonces:
 
 ```json
-[
-    {
-        "trip_id": "L1-33",
-        "route_short_name": "L1",
-        "route_long_name": "Bus UCR (L1) con milla",
-        "trip_headsign": "Educación",
-        "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": "15:17:00",
-        "in_progress": true,
-        "journey": {
-            "position_in_shape": 0.465,
-            "current_stop_sequence": 23,
-            "current_status": "INCOMING_AT",
-            "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY"
+{
+    [
+        {
+            "stop_id": "KJDH23",
+            "next_trips": [
+                {
+                    "trip_id": "L1-33",
+                    "route_short_name": "L1",
+                    "route_long_name": "Bus UCR (L1) con milla",
+                    "trip_headsign": "Educación",
+                    "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
+                    "arrival_time": "15:17:00",
+                    "in_progress": true,
+                    "journey": {
+                        "position_in_shape": 0.465,
+                        "current_stop_sequence": 23,
+                        "current_status": "INCOMING_AT",
+                        "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY"
+                    }
+                },
+                {
+                    "trip_id": "L2-12",
+                    "route_short_name": "L2",
+                    "route_long_name": "Bus UCR (L2) sin milla",
+                    "trip_headsign": "Artes Plásticas",
+                    "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
+                    "arrival_time": "15:23:00",
+                    "in_progress": true,
+                    "journey": {
+                        "position_in_shape": 0.391,
+                        "current_stop_sequence": 14,
+                        "current_status": "STOPPED_AT",
+                        "occupancy_status": "FEW_SEATS_AVAILABLE"
+                    }
+                },
+                {
+                    "trip_id": "L1-34",
+                    "route_short_name": "L1",
+                    "route_long_name": "Bus UCR (L2) sin milla",
+                    "trip_headsign": "Educación",
+                    "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
+                    "arrival_time": "15:34:00",
+                    "in_progress": false
+                }
+            ]
+        },
+        {
+            "stop_id": "JHE054",
+            "next_trips": [
+                {
+                    "trip_id": "L1-33",
+                    "route_short_name": "L1",
+                    "route_long_name": "Bus UCR (L1) con milla",
+                    "trip_headsign": "Educación",
+                    "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
+                    "arrival_time": "15:17:00",
+                    "in_progress": true,
+                    "journey": {
+                        "position_in_shape": 0.465,
+                        "current_stop_sequence": 23,
+                        "current_status": "INCOMING_AT",
+                        "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY"
+                    }
+                }
+            ]
         }
-    },
-    {
-        "trip_id": "L2-12",
-        "route_short_name": "L2",
-        "route_long_name": "Bus UCR (L2) sin milla",
-        "trip_headsign": "Artes Plásticas",
-        "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": "15:23:00",
-        "in_progress": true,
-        "journey": {
-            "position_in_shape": 0.391,
-            "current_stop_sequence": 14,
-            "current_status": "STOPPED_AT",
-            "occupancy_status": "FEW_SEATS_AVAILABLE"
-        }
-    },
-    {
-        "trip_id": "L1-34",
-        "route_short_name": "L1",
-        "route_long_name": "Bus UCR (L2) sin milla",
-        "trip_headsign": "Educación",
-        "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-        "arrival_time": "15:34:00",
-        "in_progress": false
-    }
-]
+    ]
+}
+
+
 ```
 
 Notas:

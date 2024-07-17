@@ -18,20 +18,6 @@ class Stop(models.Model):
     stop_desc = models.TextField(
         blank=True, null=True, help_text="Descripción de la parada."
     )
-    stop_lat = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
-        blank=True,
-        null=True,
-        help_text="Latitud de la parada.",
-    )
-    stop_lon = models.DecimalField(
-        max_digits=9,
-        decimal_places=6,
-        blank=True,
-        null=True,
-        help_text="Longitud de la parada.",
-    )
     stop_point = models.PointField(
         blank=True, null=True, help_text="Punto georreferenciado de la parada."
     )
@@ -45,17 +31,8 @@ class Stop(models.Model):
     parent_station = models.CharField(
         max_length=255, blank=True, help_text="Estación principal."
     )
-    stop_timezone = models.CharField(
-        max_length=255, blank=True, help_text="Zona horaria de la parada."
-    )
     wheelchair_boarding = models.PositiveIntegerField(
         blank=True, null=True, help_text="Acceso para sillas de ruedas."
-    )
-    level_id = models.CharField(
-        max_length=255, blank=True, help_text="Identificador del nivel."
-    )
-    platform_code = models.CharField(
-        max_length=255, blank=True, help_text="Código de la plataforma."
     )
 
     def __str__(self):

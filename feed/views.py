@@ -17,7 +17,7 @@ def screen(request, screen_id):
     screen = Screen.objects.get(screen_id=screen_id)
     if screen.location == "stop":
         context = {"screen": screen}
-        return render(request, "stop_screen.html", context)
+        return render(request, "test_screen.html", context)
 
 
 def edit_screen(request, screen_id):

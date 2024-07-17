@@ -10,6 +10,7 @@ class ScreenConsumer(AsyncWebsocketConsumer):
         self.screen_group_name = f"screen_{self.screen_id}"
         await self.channel_layer.group_add(self.screen_group_name, self.channel_name)
         await self.accept()
+        await self.send(text_data=json.dumps({"screen_group_name": self.screen_group_name}))
         await self.activate_screen(self.screen_id)
 
     @sync_to_async
