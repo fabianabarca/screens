@@ -99,11 +99,18 @@
                         if (etaTable.rows.length > i) {
                             etaTable.deleteRow(i);
                         }
+                        
+                        const currentTime = new Date('2024-07-31T16:10:25-06:00');
+                        const arrivalTime = new Date(row.arrival_time); 
+                        const timeDifference = Math.round((arrivalTime - currentTime) / 60000); // Difference in minutes
+
+                        row.time_remaining = timeDifference;
+
                         const newRow = etaTable.insertRow(i);
                         newRow.innerHTML = `
                             <td>${row.route_short_name}</td>
                             <td>${row.trip_headsign}</td>                
-                            <td>${row.arrival_time === 0 ? '<strong>Ahora</strong>' : `<strong>${row.arrival_time}</strong> min`}</td>
+                            <td>${row.time_remaining <= 0 ? '<strong>Ahora</strong>' : `<strong>${row.time_remaining}</strong> min`}</td>
                         `;
                     }
                 }

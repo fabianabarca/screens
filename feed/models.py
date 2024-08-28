@@ -3,6 +3,27 @@ from django.contrib.gis.db import models
 # Create your models here.
 
 
+class InfoProvider(models.Model):
+    name = models.CharField(
+        max_length=255, help_text="Nombre del proveedor de información."
+    )
+    api_url = models.URLField(
+        help_text="URL base de la API del proveedor de información."
+    )
+    is_active = models.BooleanField(
+        default=False,
+        help_text="Indica si este proveedor de información está activo. Solamente un proveedor puede estar activo a la vez.",
+    )
+
+    def save(self, *args, **kwargs):
+        if self.is_active:
+            InfoProvider.objects.filter(is_active=True).update(is_active=False)
+        super(InfoProvider, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
 class Stop(models.Model):
     """Individual locations where vehicles pick up or drop off riders.
     Maps to stops.txt in the GTFS feed.
