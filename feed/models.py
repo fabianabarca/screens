@@ -172,7 +172,7 @@ class StopScreen(Screen):
     stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.stop.stop_name
+        return f"{self.stop.stop_name} ({self.screen_id})"
 
 
 class StationScreen(Screen):
@@ -182,11 +182,11 @@ class StationScreen(Screen):
     address = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.station.station_name
+        return f"{self.station.station_name} ({self.screen_id})"
 
 
 class VehicleScreen(Screen):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.vehicle.vehicle_label
+        return f"{self.vehicle.vehicle_label} ({self.screen_id})"
