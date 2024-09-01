@@ -6,12 +6,8 @@ channels-redis
 celery[redis]
 django-celery-results
 django-celery-beat
-mkdocs-material
 requests
-configparser
-schedule
-pandas
 psycopg2-binary
-sqlalchemy
-python-decouple
 gunicorn
+mkdocs-material
+python-decouple
