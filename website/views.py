@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from feed.models import StopScreen, StationScreen, VehicleScreen
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
