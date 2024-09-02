@@ -1,0 +1,42 @@
+[
+    {
+        "model": "feed.infoprovider",
+        "pk": 1,
+        "fields": {
+            "name": "Infobús",
+            "api_url": "https://datahub.bucr.digital/api/next-trips/",
+            "is_active": true
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "UCR_0_04",
+        "fields": {
+            "stop_code": "FING",
+            "stop_name": "Parada FING",
+            "stop_desc": "La parada que está del lado del edificio.",
+            "stop_point": "SRID=4326;POINT (-84.04477367684038 9.93749853301824)",
+            "zone_id": "0",
+            "stop_url": null,
+            "location_type": 0,
+            "parent_station": "",
+            "wheelchair_boarding": null
+        }
+    },
+    {
+        "model": "feed.stopscreen",
+        "pk": "ingenieria-edificio",
+        "fields": {
+            "name": "Facultad de Ingeniería (sentido norte)",
+            "description": "La parada que está del lado del edificio, con los buses que van hacia las deportivas.",
+            "orientation": "landscape",
+            "ratio": "16:9",
+            "size": 32,
+            "has_audio": false,
+            "created_at": "2024-09-01T18:02:51.302Z",
+            "updated_at": "2024-09-02T04:01:30.984Z",
+            "is_active": true,
+            "stop": "UCR_0_04"
+        }
+    }
+]

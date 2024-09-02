@@ -67,13 +67,3 @@ def update_stop_screens():
     )
 
     return "Actualización de pantallas exitosa"
-
-
-@shared_task
-def get_gtfs():
-    return "GTFS"
-
-
-@shared_task
-def update_stops():
-    return "Stops are updated"
