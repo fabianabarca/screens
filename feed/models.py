@@ -15,10 +15,10 @@ class InfoProvider(models.Model):
         help_text="Indica si este proveedor de información está activo. Solamente un proveedor puede estar activo a la vez.",
     )
 
-    def save(self, *args, **kwargs):
-        if self.is_active:
-            InfoProvider.objects.filter(is_active=True).update(is_active=False)
-        super(InfoProvider, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #    if self.is_active:
+    #        InfoProvider.objects.filter(is_active=True).update(is_active=False)
+    #    super(InfoProvider, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
