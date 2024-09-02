@@ -70,7 +70,8 @@
         // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
         // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
         // Crear un WebSocket 
-        const wsUrl = 'ws://' + window.location.host + '/ws/screen/{{ screen.screen_id }}/';
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsUrl = wsProtocol + window.location.host + '/ws/screen/{{ screen.screen_id }}/';
         const screenSocket = new WebSocket(wsUrl);
 
         // Registrar la conexión abierta
