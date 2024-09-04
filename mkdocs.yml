@@ -4,6 +4,7 @@ nav:
   - Inicio: index.md
   - Arquitectura: architecture.md
   - Desarrollo: development.md
+  - Configuración: deployment.md
   - Sobre el proyecto: about.md
   - Pantallas: screens.md
 
