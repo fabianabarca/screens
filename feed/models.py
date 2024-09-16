@@ -66,6 +66,17 @@ class Stop(models.Model):
     Maps to stops.txt in the GTFS feed.
     """
 
+    STOP_HEADING_CHOICES = [
+        ("north", "Norte"),
+        ("northeast", "Noreste"),
+        ("east", "Este"),
+        ("southeast", "Sureste"),
+        ("south", "Sur"),
+        ("southwest", "Suroeste"),
+        ("west", "Oeste"),
+        ("northwest", "Noroeste"),
+    ]
+
     stop_id = models.CharField(
         max_length=255, primary_key=True, help_text="Identificador único de la parada."
     )
@@ -78,6 +89,12 @@ class Stop(models.Model):
     )
     stop_point = models.PointField(
         blank=True, null=True, help_text="Punto georreferenciado de la parada."
+    )
+    stop_heading = models.CharField(
+        max_length=10,
+        choices=STOP_HEADING_CHOICES,
+        blank=True,
+        null=True,
     )
     zone_id = models.CharField(
         max_length=255, blank=True, null=True, help_text="Identificador de la zona."
