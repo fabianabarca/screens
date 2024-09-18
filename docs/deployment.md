@@ -191,7 +191,7 @@ Now, for Nginx to proxy pass to Daphne, the following is needed:
 ```init title="/etc/nginx/sites-available/screens" hl_lines="15-20"
 server {
     listen 80;
-    server_name server_domain_or_IP;
+    server_name pantallas.bucr.digital;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
