@@ -24,47 +24,45 @@ class InfoProvider(models.Model):
         return self.name
 
 
-class Station(models.Model):
+class StopBase(models.Model):
+    """Individual locations where vehicles pick up or drop off riders.
+    Maps to stops.txt in the GTFS feed.
+    """
+
+    stop_id = models.CharField(
+        max_length=255, primary_key=True, help_text="Identificador único de la parada."
+    )
+    stop_code = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        help_text="Código de la parada, visible en el URL.",
+    )
+    stop_name = models.CharField(max_length=255, help_text="Nombre de la parada.")
+    stop_desc = models.TextField(
+        blank=True, null=True, help_text="Descripción de la parada."
+    )
+    stop_point = models.PointField(
+        blank=True, null=True, help_text="Punto georreferenciado de la parada."
+    )
+    location_type = models.PositiveIntegerField(blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class Station(StopBase):
     """A group of related stops where vehicles pick up or drop off riders.
     Maps to stops.txt in the GTFS feed.
     """
 
-    station_id = models.CharField(
-        max_length=255,
-        primary_key=True,
-        help_text="Identificador único de la estación.",
-    )
-    station_name = models.CharField(max_length=255, help_text="Nombre de la estación.")
-    station_desc = models.TextField(
-        blank=True, null=True, help_text="Descripción de la estación."
-    )
-    station_point = models.PointField(
-        blank=True, null=True, help_text="Punto georreferenciado de la estación."
-    )
-    zone_id = models.CharField(
-        max_length=255, blank=True, null=True, help_text="Identificador de la zona."
-    )
-    station_url = models.URLField(
-        blank=True, null=True, help_text="URL de la estación."
-    )
-    location_type = models.PositiveIntegerField(
-        blank=True, null=True, help_text="Tipo de estación."
-    )
-    parent_station = models.CharField(
-        max_length=255, blank=True, help_text="Estación principal."
-    )
-    wheelchair_boarding = models.PositiveIntegerField(
-        blank=True, null=True, help_text="Acceso para sillas de ruedas."
-    )
+    station_slug = models.SlugField(blank=True, null=True)
 
     def __str__(self):
-        return self.station_name
+        return self.stop_name
 
 
-class Stop(models.Model):
-    """Individual locations where vehicles pick up or drop off riders.
-    Maps to stops.txt in the GTFS feed.
-    """
+class Stop(StopBase):
 
     STOP_HEADING_CHOICES = [
         ("north", "Norte"),
@@ -76,42 +74,19 @@ class Stop(models.Model):
         ("west", "Oeste"),
         ("northwest", "Noroeste"),
     ]
-
-    stop_id = models.CharField(
-        max_length=255, primary_key=True, help_text="Identificador único de la parada."
-    )
-    stop_code = models.CharField(
-        max_length=255, blank=True, null=True, help_text="Código de la parada."
-    )
-    stop_name = models.CharField(max_length=255, help_text="Nombre de la parada.")
-    stop_desc = models.TextField(
-        blank=True, null=True, help_text="Descripción de la parada."
-    )
-    stop_point = models.PointField(
-        blank=True, null=True, help_text="Punto georreferenciado de la parada."
-    )
+    stop_slug = models.SlugField(unique=True, blank=True, null=True)
     stop_heading = models.CharField(
         max_length=10,
         choices=STOP_HEADING_CHOICES,
         blank=True,
         null=True,
     )
-    zone_id = models.CharField(
-        max_length=255, blank=True, null=True, help_text="Identificador de la zona."
-    )
-    stop_url = models.URLField(blank=True, null=True, help_text="URL de la parada.")
-    location_type = models.PositiveIntegerField(
-        blank=True, null=True, help_text="Tipo de parada."
-    )
-    parent_station = models.CharField(
-        max_length=255, blank=True, help_text="Estación principal."
-    )
-    wheelchair_boarding = models.PositiveIntegerField(
-        blank=True, null=True, help_text="Acceso para sillas de ruedas."
+    parent_station = models.ForeignKey(
+        Station, on_delete=models.CASCADE, blank=True, null=True
     )
 
     def __str__(self):
-        return self.stop_name
+        return f"{self.stop_name} ({self.stop_heading})"
 
 
 class Vehicle(models.Model):
@@ -194,9 +169,6 @@ class StopScreen(Screen):
 
 class StationScreen(Screen):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
-    point = models.PointField(blank=True, null=True)
-    stops = models.ManyToManyField(Stop, blank=True)
-    address = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.station.station_name} ({self.screen_id})"
