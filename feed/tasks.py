@@ -22,7 +22,9 @@ def update_stop_screens():
 
         stop = screen.stop
 
-        url = info_provider.api_url
+        api_url = info_provider.api_url
+        endpoint = "next-trips"
+        url = api_url + endpoint
         params = {"stop_id": stop.stop_id}
         response = requests.get(url, params=params)
 
@@ -41,7 +43,7 @@ def update_stop_screens():
             # Send the message to the screen via websocket
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
-                f"screen_{screen.screen_id}",
+                f"screen_stop_{screen.screen_id}",
                 {
                     "type": "screen_message",
                     "message": update_message,
@@ -52,7 +54,7 @@ def update_stop_screens():
 
             print(f"Error: {response.status_code}")
 
-    # Status update
+    # Status monitor update
     message = {}
     message["last_update"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     message["active_stop_screens"] = len(screens)

@@ -15,9 +15,11 @@
 
 <body class="container">
     <!-- Header -->
-    <h1 class="display-1">
-        {{ screen.name }}
+    <h1 class="display-1"> 
+        {{ screen.name }} 
+        <span class="text-muted fst-italic small">{{ stop.get_stop_heading_display|capfirst }}</span>
     </h1>
+    
     <h1 class="display-3" id="current-time"></h1>
     <p class="lead">
         <i class="fa-solid fa-circle fa-fade"></i>
@@ -71,7 +73,7 @@
         // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
         // Crear un WebSocket 
         const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-        const wsUrl = wsProtocol + window.location.host + '/ws/screen/{{ screen.screen_id }}/';
+        const wsUrl = wsProtocol + window.location.host + '/ws/screen/stop/{{ screen.screen_id }}/';
         const screenSocket = new WebSocket(wsUrl);
 
         // Registrar la conexión abierta
@@ -85,7 +87,6 @@
             const json = JSON.parse(event.data);
             const data = json['message'];
             if (data) {
-                console.log(typeof data);
 
                 maxRows = 3;
                 nRows = 3 // Math.min(data.length, maxRows);
@@ -101,7 +102,7 @@
                             etaTable.deleteRow(i);
                         }
                         
-                        const currentTime = new Date('2024-08-29T13:36:00-06:00');
+                        const currentTime = new Date();
                         const arrivalTime = new Date(row.arrival_time); 
                         const timeDifference = Math.round((arrivalTime - currentTime) / 60000); // Difference in minutes
 
@@ -123,59 +124,6 @@
         });
     </script>
 
-    <!-- Actualización de la tabla de ETA
-    <script>
-        data = [
-            {
-                "route_short_name": "L1",
-                "route_long_name": "Bus UCR (L1) con milla",
-                "trip_headsign": "Deportivas",
-                "occupancy_status": "CRUSHED_STANDING_ROOM_ONLY",
-                "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-                "arrival_time": 0,
-                "current_stop_sequence": 23,
-                "current_status": "STOPPED_AT"
-            },
-            {
-                "route_short_name": "L2",
-                "route_long_name": "Bus UCR (L2) sin milla",
-                "trip_headsign": "Artes Plásticas",
-                "occupancy_status": "MANY_SEATS_AVAILABLE",
-                "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-                "arrival_time": 6,
-                "current_stop_sequence": 11,
-                "current_status": "IN_TRANSIT_TO"
-            },
-            {
-                "route_short_name": "L1",
-                "route_long_name": "Bus UCR (L2) sin milla",
-                "trip_headsign": "Educación",
-                "occupancy_status": "MANY_SEATS_AVAILABLE",
-                "wheelchair_accessible": "WHEELCHAIR_ACCESSIBLE",
-                "arrival_time": 12,
-                "current_stop_sequence": 3,
-                "current_status": "INCOMING_AT"
-            }
-        ];
-
-        maxRows = 3;
-        nRows = Math.min(data.length, maxRows);
-
-        if (nRows === 0) {
-            document.getElementById('alert').innerHTML = 'No hay más buses hoy';
-        } else {
-            for (let i = 0; i < nRows; i++) {
-                const row = data[i]; // Assuming array is ordered by ascending arrival_time
-                const etaTable = document.getElementById('eta-table');
-                const newRow = etaTable.insertRow(-1);
-                newRow.innerHTML = `
-                <td>${row.route_short_name}</td>
-                <td>${row.trip_headsign}</td>                
-                <td>${row.arrival_time === 0 ? 'Ahora' : `${row.arrival_time} min`}</td>
-            `;
-            }
-        }
-    </script> -->
 </body>
 
 </html>

@@ -6,8 +6,9 @@ from asgiref.sync import sync_to_async
 
 class ScreenConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        self.screen_type = self.scope["url_route"]["kwargs"]["screen_type"]
         self.screen_id = self.scope["url_route"]["kwargs"]["screen_id"]
-        self.screen_group_name = f"screen_{self.screen_id}"
+        self.screen_group_name = f"screen_{self.screen_type}_{self.screen_id}"
         await self.channel_layer.group_add(self.screen_group_name, self.channel_name)
         await self.accept()
         await self.send(

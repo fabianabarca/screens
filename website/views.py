@@ -18,8 +18,8 @@ def stop_screen_create(request):
 
 
 def stop_screen(request, stop_slug):
-    stop = Stop.objects.get(stop_slug=stop_slug)
-    screen = StopScreen.objects.get(stop=stop)
+    screen = StopScreen.objects.get(stop_slug=stop_slug)
+    stop = screen.stop
     context = {"screen": screen, "stop": stop}
     return render(request, "test_screen.html", context)
 
@@ -38,8 +38,8 @@ def station_screen_create(request):
 
 
 def station_screen(request, station_slug):
-    station = Station.objects.get(station_slug=station_slug)
-    screen = StationScreen.objects.get(station=station)
+    screen = StationScreen.objects.get(station_slug=station_slug)
+    station = screen.station
     context = {"screen": screen, "station": station}
     return render(request, "station_screen.html", context)
 
@@ -58,8 +58,9 @@ def vehicle_screen_create(request):
 
 
 def vehicle_screen(request, vehicle_slug):
-    screen = VehicleScreen.objects.get(screen_id=vehicle_slug)
-    context = {"screen": screen}
+    screen = VehicleScreen.objects.get(vehicle_slug=vehicle_slug)
+    vehicle = screen.vehicle
+    context = {"screen": screen, "vehicle": vehicle}
     return render(request, "vehicle_screen.html", context)
 
 

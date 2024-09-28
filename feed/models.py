@@ -56,8 +56,6 @@ class Station(StopBase):
     Maps to stops.txt in the GTFS feed.
     """
 
-    station_slug = models.SlugField(blank=True, null=True)
-
     def __str__(self):
         return self.stop_name
 
@@ -65,16 +63,15 @@ class Station(StopBase):
 class Stop(StopBase):
 
     STOP_HEADING_CHOICES = [
-        ("north", "Norte"),
-        ("northeast", "Noreste"),
-        ("east", "Este"),
-        ("southeast", "Sureste"),
-        ("south", "Sur"),
-        ("southwest", "Suroeste"),
-        ("west", "Oeste"),
-        ("northwest", "Noroeste"),
+        ("north", "norte"),
+        ("northeast", "noreste"),
+        ("east", "este"),
+        ("southeast", "sureste"),
+        ("south", "sur"),
+        ("southwest", "suroeste"),
+        ("west", "oeste"),
+        ("northwest", "noroeste"),
     ]
-    stop_slug = models.SlugField(unique=True, blank=True, null=True)
     stop_heading = models.CharField(
         max_length=10,
         choices=STOP_HEADING_CHOICES,
@@ -132,7 +129,7 @@ class Screen(models.Model):
         ("16:10", "16:10"),
     ]
 
-    screen_id = models.CharField(max_length=100, primary_key=True)
+    screen_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     orientation = models.CharField(
@@ -156,12 +153,11 @@ class Screen(models.Model):
     class Meta:
         abstract = True
 
-    def __str__(self):
-        return self.name
-
 
 class StopScreen(Screen):
     stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
+    stop_slug = models.SlugField(unique=True)
+    # TODO: fields for heading and for screen layout
 
     def __str__(self):
         return f"{self.stop.stop_name} ({self.screen_id})"
@@ -169,6 +165,8 @@ class StopScreen(Screen):
 
 class StationScreen(Screen):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
+    station_slug = models.SlugField(unique=True)
+
 
     def __str__(self):
         return f"{self.station.station_name} ({self.screen_id})"
@@ -176,6 +174,7 @@ class StationScreen(Screen):
 
 class VehicleScreen(Screen):
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
+    vehicle_slug = models.SlugField(unique=True)
 
     def __str__(self):
         return f"{self.vehicle.vehicle_label} ({self.screen_id})"
