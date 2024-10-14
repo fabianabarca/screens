@@ -1,5 +1,27 @@
 # Instrucciones de ejecución de la plataforma
 
+## Clonar el repositorio
+
+Primero se debe clonar el repositorio. Para esto se debe usar:
+
+```bash
+git clone git@github.com:fabianabarca/screens.git
+```
+
+en el directorio donde se desea realizar el desarrollo.
+
+## Requerimientos
+
+Luego, se deben instalar los requerimientos del proyecto. Se debe usar:
+
+```bash
+pip install -r requirements.txt
+```
+
+Nota: Dependiendo de la versión de Python utilizada, "pip" y otros comandos se deben ajustar a su versión, por ejemplo "pip3".
+
+## Algunos componentes importantes
+
 El sistema requiere de:
 
 - Django / Python
@@ -13,14 +35,9 @@ La plataforma de Django será útil para:
 
 - Crear el sitio web con el panel de administración
 - Administrar las tareas periódicas con su integración con Celery y Celery Beat
-- Actualizar la informació en tiempo real con las pantallas con WebSockets
+- Actualizar la información en tiempo real con las pantallas con WebSockets
 
-Es necesario instalar Django 5.0 y la extensión Django Channels:
-
-```bash
-pip install django
-pip install channels
-```
+Django y su extensión Django Channels se instala con `requirements.txt`.
 
 ## PostgreSQL / PostGIS
 
@@ -71,6 +88,10 @@ screens=# CREATE EXTENSION postgis;
 ```
 
 Con esto quedaría lista la base de datos para conectarnos desde Django.
+
+## Agregar makemigrations feed (TODO)
+
+Esto es necesario para que los modelos se migren hacia la DB
 
 ## Celery
 
