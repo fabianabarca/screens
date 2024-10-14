@@ -13,22 +13,21 @@
     <script src="https://kit.fontawesome.com/1ae7c4e024.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="container">
+<body class="container-fluid">
     <!-- Header -->
-    <h1 class="display-1"> 
-        {{ screen.name }} 
-        <span class="text-muted fst-italic small">{{ stop.get_stop_heading_display|capfirst }}</span>
+    <h1 class="display-1 fw-bold" style="color: white; background-color: #001e35;"> 
+        {{ screen.name }}
+        <span class="fw-bold fs-1" style="color: rgb(180, 180, 180);">{{ stop.get_stop_heading_display|capfirst }}</span><br>
+        <p class="display-3" id="current-time"></p>
+        <p class="lead">
+            <i class="fa-solid fa-circle fa-fade"></i>
+            Actualizaciones cada minuto
+        </p>
     </h1>
     
-    <h1 class="display-3" id="current-time"></h1>
-    <p class="lead">
-        <i class="fa-solid fa-circle fa-fade"></i>
-        Actualizaciones cada minuto
-    </p>
-
     <div class="px-5 py-5">
         <!-- ETA table -->
-        <table id="eta-table" class="table display-3"></table>
+        <table id="eta-table" class="table display-2"></table>
 
         <!-- Alerta -->
         <div class="display-1 text-center" id="alert"></div>
@@ -110,7 +109,7 @@
 
                         const newRow = etaTable.insertRow(i);
                         newRow.innerHTML = `
-                            <td>${row.route_short_name}</td>
+                            <td class="badge rounded-pill bg-secondary">${row.route_short_name}</td>
                             <td>${row.trip_headsign}</td>                
                             <td>${row.time_remaining <= 0 ? '<strong>Ahora</strong>' : `<strong>${row.time_remaining}</strong> min`}</td>
                         `;
