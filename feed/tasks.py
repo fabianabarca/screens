@@ -1,6 +1,6 @@
 # Create your tasks here
 
-from feed.models import InfoProvider, StopScreen
+from feed.models import InfoProvider, StopScreen, Stop, Station
 
 from celery import shared_task
 
@@ -69,3 +69,74 @@ def update_stop_screens():
     )
 
     return "Actualización de pantallas exitosa"
+
+
+@shared_task
+def update_stops():
+    """Retrieves and updates stops."""
+
+    info_provider = InfoProvider.objects.get(is_active=True)
+    try:
+        response = requests.get(info_provider.api_url + "stops")
+        response.raise_for_status()
+        stops = response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching stops: {e}")
+        return "Error fetching stops"
+    except ValueError as e:
+        print(f"Error parsing JSON response: {e}")
+        return "Error parsing JSON response"
+
+    # Save stations
+    for stop in stops:
+        location_type = stop["location_type"]
+        if location_type == 1:
+            stop_id = stop["stop_id"]
+            stop_code = stop["stop_code"]
+            stop_name = stop["stop_name"]
+            stop_desc = stop["stop_desc"]
+            stop_point = stop["stop_point"]
+            wheelchair_boarding = stop["wheelchair_boarding"]
+            Station.objects.update_or_create(
+                stop_id=stop_id,
+                defaults={
+                    "stop_code": stop_code,
+                    "stop_name": stop_name,
+                    "stop_desc": stop_desc,
+                    "stop_point": stop_point,
+                    "location_type": location_type,
+                    "wheelchair_boarding": wheelchair_boarding,
+                },
+            )
+
+    # Save stops
+    for stop in stops:
+        location_type = stop["location_type"]
+        if location_type == 0:
+            stop_id = stop["stop_id"]
+            stop_code = stop["stop_code"]
+            stop_name = stop["stop_name"]
+            stop_desc = stop["stop_desc"]
+            stop_point = stop["stop_point"]
+            stop_heading = stop["stop_heading"]
+            wheelchair_boarding = stop["wheelchair_boarding"]
+            parent_station = stop["parent_station"]
+            if parent_station:
+                parent_station = Station.objects.get(stop_id=parent_station)
+            else:
+                parent_station = None
+            Stop.objects.update_or_create(
+                stop_id=stop_id,
+                defaults={
+                    "stop_code": stop_code,
+                    "stop_name": stop_name,
+                    "stop_desc": stop_desc,
+                    "stop_point": stop_point,
+                    "location_type": location_type,
+                    "stop_heading": stop_heading,
+                    "wheelchair_boarding": wheelchair_boarding,
+                    "parent_station": parent_station,
+                },
+            )
+
+    return "Actualización de paradas exitosa"
