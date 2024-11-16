@@ -17,7 +17,7 @@
     <!-- Header -->
     <h1 class="display-1"> 
         {{ screen.name }} 
-        <span class="text-muted fst-italic small">{{ stop.get_stop_heading_display|capfirst }}</span>
+        {% if stop.stop_heading %}<span class="text-muted fst-italic small">{{ stop.get_stop_heading_display|capfirst }}</span>{% endif %}
     </h1>
     
     <h1 class="display-3" id="current-time"></h1>
@@ -27,16 +27,13 @@
     </p>
 
     <div class="px-5 py-5">
+        <!-- Alerta -->
+        <div id="alert" class="text-center display-4" role="alert"></div>
+
         <!-- ETA table -->
         <table id="eta-table" class="table display-3"></table>
 
-        <!-- Alerta -->
-        <div class="display-1 text-center" id="alert"></div>
-
-        <!-- Footer
-        <div class="fixed-bottom-left text-center p-5">
-            Hola
-        </div> -->
+        <!-- Sitio web -->
         <div class="fixed-bottom-right text-end p-5">
             <span class="display-3"><span class="fw-bold">bus</span>.ucr.ac.cr</span>
         </div>
@@ -69,8 +66,6 @@
 
     <!-- Actualización con WebSockets -->
     <script>
-        // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
-        // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
         // Crear un WebSocket 
         const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
         const wsUrl = wsProtocol + window.location.host + '/ws/screen/stop/{{ screen.screen_id }}/';
@@ -81,19 +76,25 @@
             console.log('screens: Conexión abierta exitosamente en ' + wsUrl);
         };
 
-        // Manejo de eventos de mensajes
+        document.getElementById('alert').innerHTML = '<i class="fa-regular fa-hourglass-half fa-fade"></i> Actualizando...';
+
+        // Manejo de eventos
         screenSocket.onmessage = function (event) {
             console.log('Mensaje recibido:', event.data);
             const json = JSON.parse(event.data);
             const data = json['message'];
+            
             if (data) {
-
+                document.getElementById('alert').innerHTML = '';
                 maxRows = 3;
-                nRows = 3 // Math.min(data.length, maxRows);
+                nRows = Math.min(data.length, maxRows);
 
                 if (nRows === 0) {
+                    // No hay más buses hoy
+                    document.getElementById('eta-table') = '';
                     document.getElementById('alert').innerHTML = 'No hay más buses hoy';
                 } else {
+                    // Construir la tabla de tiempos de llegada
                     for (let i = 0; i < nRows; i++) {
                         const row = data[i]; // Assuming array is ordered by ascending arrival_time
                         const etaTable = document.getElementById('eta-table');
@@ -102,23 +103,25 @@
                             etaTable.deleteRow(i);
                         }
                         
+                        // Calcular el tiempo restante para la llegada del bus
                         const currentTime = new Date();
                         const arrivalTime = new Date(row.arrival_time); 
-                        const timeDifference = Math.round((arrivalTime - currentTime) / 60000); // Difference in minutes
-
+                        const timeDifference = Math.round((arrivalTime - currentTime) / 60000); // min
                         row.time_remaining = timeDifference;
 
+                        // Agregar una nueva fila de datos a la tabla
                         const newRow = etaTable.insertRow(i);
                         newRow.innerHTML = `
                             <td>${row.route_short_name}</td>
                             <td>${row.trip_headsign}</td>                
-                            <td>${row.time_remaining <= 0 ? '<strong>Ahora</strong>' : `<strong>${row.time_remaining}</strong> min`}</td>
+                            <td>${row.time_remaining <= 1 ? '<strong>Ahora</strong>' : `<strong>${row.time_remaining}</strong> min`}</td>
                         `;
                     }
                 }
             }
         };
 
+        // Cerrar la conexión antes de cerrar la ventana del navegador
         window.addEventListener('beforeunload', function (event) {
             screenSocket.close();
         });
