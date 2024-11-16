@@ -27,7 +27,15 @@ class InfoProvider(models.Model):
 class StopBase(models.Model):
     """Individual locations where vehicles pick up or drop off riders.
     Maps to stops.txt in the GTFS feed.
+
+    TODO: check wheelchair_boarding choices (different for stops and stations)
     """
+
+    WHEELCHAIR_BOARDING_CHOICES = [
+        (0, "Sin información"),
+        (1, "Accesible"),
+        (2, "No accesible"),
+    ]
 
     stop_id = models.CharField(
         max_length=255, primary_key=True, help_text="Identificador único de la parada."
@@ -46,6 +54,9 @@ class StopBase(models.Model):
         blank=True, null=True, help_text="Punto georreferenciado de la parada."
     )
     location_type = models.PositiveIntegerField(blank=True, null=True)
+    wheelchair_boarding = models.PositiveIntegerField(
+        blank=True, null=True, choices=WHEELCHAIR_BOARDING_CHOICES
+    )
 
     class Meta:
         abstract = True
@@ -83,7 +94,9 @@ class Stop(StopBase):
     )
 
     def __str__(self):
-        return f"{self.stop_name} ({self.stop_heading})"
+        if self.stop_heading:
+            return f"{self.stop_id}: {self.stop_name} ({self.stop_heading})"
+        return f"{self.stop_id}: {self.stop_name}"
 
 
 class Vehicle(models.Model):
@@ -166,7 +179,6 @@ class StopScreen(Screen):
 class StationScreen(Screen):
     station = models.ForeignKey(Station, on_delete=models.CASCADE)
     station_slug = models.SlugField(unique=True)
-
 
     def __str__(self):
         return f"{self.station.station_name} ({self.screen_id})"
