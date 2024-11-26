@@ -15,9 +15,13 @@
 
 <body class="container">
     <!-- Header -->
-    <h1 class="display-1"> 
-        {{ screen.name }} 
-        {% if stop.stop_heading %}<span class="text-muted fst-italic small">{{ stop.get_stop_heading_display|capfirst }}</span>{% endif %}
+    <h1 class="display-1 my-4"> 
+        <span class="fw-bold">{{ screen.name }}</span>
+        {% if stop.stop_heading %}
+        <span class="fs-2 text-muted text-uppercase fst-italic ms-3">
+            sentido {{ stop.get_stop_heading_display }}
+        </span>
+        {% endif %}
     </h1>
     
     <h1 class="display-3" id="current-time"></h1>
@@ -27,11 +31,11 @@
     </p>
 
     <div class="px-5 py-5">
-        <!-- Alerta -->
-        <div id="alert" class="text-center display-4" role="alert"></div>
+        <!-- Esperando datos -->
+        <div id="alert" class="text-center display-5" role="alert"></div>
 
         <!-- ETA table -->
-        <table id="eta-table" class="table display-3"></table>
+        <table id="eta-table" class="table display-2"></table>
 
         <!-- Sitio web -->
         <div class="fixed-bottom-right text-end p-5">
@@ -76,7 +80,7 @@
             console.log('screens: Conexión abierta exitosamente en ' + wsUrl);
         };
 
-        document.getElementById('alert').innerHTML = '<i class="fa-regular fa-hourglass-half fa-fade"></i> Actualizando...';
+        document.getElementById('alert').innerHTML = '<i class="fa-solid fa-bus fa-fade"></i> Esperando datos... <br> <span class="fs-3 text-muted fst-italic">Puede tardar hasta 20 segundos</span>';
 
         // Manejo de eventos
         screenSocket.onmessage = function (event) {
@@ -114,7 +118,7 @@
                         newRow.innerHTML = `
                             <td>${row.route_short_name}</td>
                             <td>${row.trip_headsign}</td>                
-                            <td>${row.time_remaining <= 1 ? '<strong>Ahora</strong>' : `<strong>${row.time_remaining}</strong> min`}</td>
+                            <td>${row.time_remaining <= 1 ? '<span class="fw-bold fa-fade">Ahora</span>' : `<span class="fw-bold">${row.time_remaining}</span> min`}</td>
                         `;
                     }
                 }
