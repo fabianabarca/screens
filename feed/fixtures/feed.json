@@ -4,39 +4,341 @@
         "pk": 1,
         "fields": {
             "name": "Infobús",
-            "api_url": "https://datahub.bucr.digital/api/next-trips/",
+            "api_url": "https://infobus.bucr.digital/api/",
             "is_active": true
         }
     },
     {
-        "model": "feed.stop",
-        "pk": "UCR_0_04",
+        "model": "feed.station",
+        "pk": "bUCR_CS",
         "fields": {
-            "stop_code": "FING",
-            "stop_name": "Parada FING",
-            "stop_desc": "La parada que está del lado del edificio.",
-            "stop_point": "SRID=4326;POINT (-84.04477367684038 9.93749853301824)",
-            "zone_id": "0",
-            "stop_url": null,
+            "stop_code": "",
+            "stop_name": "Facultad de Ciencias Sociales",
+            "stop_desc": "En las inmediaciones del edificio de la Facultad de Ciencias Sociales",
+            "stop_point": "SRID=4326;POINT (-84.04229551510366 9.938130529026141)",
+            "location_type": 1,
+            "wheelchair_boarding": 1
+        }
+    },
+    {
+        "model": "feed.station",
+        "pk": "bUCR_FI",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Ingeniería",
+            "stop_desc": "En las inmediaciones del edificio de la Facultad de Ingeniería",
+            "stop_point": "SRID=4326;POINT (-84.04467644300775 9.937467311441507)",
+            "location_type": 1,
+            "wheelchair_boarding": 1
+        }
+    },
+    {
+        "model": "feed.station",
+        "pk": "bUCR_LA",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Laboratorio Nacional de Materiales y Modelos Estructurales (LanammeUCR)",
+            "stop_desc": "En las inmediaciones del Laboratorio Nacional de Materiales y Modelos Estructurales (LanammeUCR)",
+            "stop_point": "SRID=4326;POINT (-84.04544067497328 9.935785141707278)",
+            "location_type": 1,
+            "wheelchair_boarding": 1
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "UCR_0_06",
+        "fields": {
+            "stop_code": "UCR_0_06",
+            "stop_name": "Facultad de Ingeniería",
+            "stop_desc": "Al lado del edificio",
+            "stop_point": "SRID=4326;POINT (-84.04479438474876 9.937487314755062)",
             "location_type": 0,
-            "parent_station": "",
-            "wheelchair_boarding": null
+            "wheelchair_boarding": null,
+            "stop_heading": "northeast",
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_01",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Educación",
+            "stop_desc": "Frente al jardín de la Facultad de Educación (FE)",
+            "stop_point": "SRID=4326;POINT (-84.04899295728595 9.935610136323218)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_02",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Escuela de Artes Plásticas",
+            "stop_desc": "Nuevo edificio de la Escuela de Artes Plásticas (EAP)",
+            "stop_point": "SRID=4326;POINT (-84.05217559901489 9.935501598287884)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_03",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Biblioteca de Ciencias de la Salud",
+            "stop_desc": "Frente al antiguo edificio de la Facultad de Odontología (FOd), diagonal al parqueo de la Biblioteca de Ciencias de la Salud",
+            "stop_point": "SRID=4326;POINT (-84.0517499001992 9.93860832346218)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_04",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Microbiología",
+            "stop_desc": "Esquina noreste del parqueo de las Escuelas de Artes Musicales (EAM), Química (EQ) y Biología (EB) y la Facultad de Microbiología (FMic)",
+            "stop_point": "SRID=4326;POINT (-84.04876049840074 9.93832361909286)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_05",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Laboratorio Nacional de Materiales y Modelos Estructurales (LanammeUCR)",
+            "stop_desc": "Junto al parqueo del Centro de Transferencia Tecnológica (CTT), diagonal al Laboratorio Nacional de Materiales y Modelos Estructurales (LANAMME)",
+            "stop_point": "SRID=4326;POINT (-84.04537504744147 9.935903915437937)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": "bUCR_LA"
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_06",
+        "fields": {
+            "stop_code": null,
+            "stop_name": "Facultad de Ingeniería",
+            "stop_desc": "Costado norte del nuevo edificio de la Facultad de Ingeniería (FI)",
+            "stop_point": "SRID=4326;POINT (-84.04467644300775 9.937467311441507)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": "northeast",
+            "parent_station": "bUCR_FI"
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_07",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Ciencias Sociales",
+            "stop_desc": "Entre la Facultad de Ciencias Sociales (FCS) y el edificio de parqueos",
+            "stop_point": "SRID=4326;POINT (-84.04237892478906 9.938029607676915)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": "bUCR_CS"
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_08",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Instituto de Investigación en Educación (INIE)",
+            "stop_desc": "Costado sur del edificio del Instituto de Investigación en Educación (INIE)",
+            "stop_point": "SRID=4326;POINT (-84.04307776266035 9.939451647823137)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_09",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Centro de Investigación en Cirugía y Cáncer (CICICA)",
+            "stop_desc": "Costado sur del edificio del Centro de Investigación en Cirugía y Cáncer (CICICA)",
+            "stop_point": "SRID=4326;POINT (-84.04450675690296 9.940155168862551)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_10",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Oficina de Bienestar y Salud (OBS)",
+            "stop_desc": "Entre el nuevo edificio de la Oficina de Bienestar y Salud (OBS) y el Estadio Ecológico",
+            "stop_point": "SRID=4326;POINT (-84.04468346245407 9.943761220391433)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_0_11",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Odontología",
+            "stop_desc": "En el nuevo edificio de la Facultad de Odontología (FOd) en la Finca 3",
+            "stop_point": "SRID=4326;POINT (-84.0451915613564 9.946441050827925)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_01",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Odontología",
+            "stop_desc": "En el nuevo edificio de la Facultad de Odontología (FOd) en la Finca 3",
+            "stop_point": "SRID=4326;POINT (-84.04535458313804 9.946529500847424)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_02",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Escuela de Educación Física y Deportes (EDUFI)",
+            "stop_desc": "Costado este de las canchas multiuso y de la Escuela de Educación Física y Deportes (EDUFI)",
+            "stop_point": "SRID=4326;POINT (-84.04495180739714 9.943381444081362)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_03",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Escuela de Nutrición",
+            "stop_desc": "Esquina noreste del edificio de la Escuela de Nutrición (ENu)",
+            "stop_point": "SRID=4326;POINT (-84.04468654565294 9.939134591559855)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_04",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Centro de Investigación en Ciencias del Mar y Limnología (CIMAR)",
+            "stop_desc": "Entre el edificio de parqueos y el Centro de Investigación en Ciencias del Mar y Limnología (CIMAR)",
+            "stop_point": "SRID=4326;POINT (-84.0436758508172 9.938980381389706)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_05",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Centro de Investigación en Matemática Pura y Aplicada (CIMPA)",
+            "stop_desc": "Frente al edificio del Centro de Investigación en Matemática Pura y Aplicada (CIMPA)",
+            "stop_point": "SRID=4326;POINT (-84.042189216776 9.939472792042086)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": null
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_06",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Ciencias Sociales",
+            "stop_desc": "Entre la Facultad de Ciencias Sociales (FCS) y el edificio de parqueos",
+            "stop_point": "SRID=4326;POINT (-84.04229551510366 9.938130529026141)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": "bUCR_CS"
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_07",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Facultad de Ingeniería",
+            "stop_desc": "Costado norte del nuevo edificio de la Facultad de Ingeniería (FI), al otro lado de la calle",
+            "stop_point": "SRID=4326;POINT (-84.04501822768842 9.937468669419962)",
+            "location_type": 0,
+            "wheelchair_boarding": 1,
+            "stop_heading": null,
+            "parent_station": "bUCR_FI"
+        }
+    },
+    {
+        "model": "feed.stop",
+        "pk": "bUCR_1_08",
+        "fields": {
+            "stop_code": "",
+            "stop_name": "Laboratorio Nacional de Materiales y Modelos Estructurales (LanammeUCR)",
+            "stop_desc": "Junto al parqueo del Centro de Transferencia Tecnológica (CTT), diagonal al Laboratorio Nacional de Materiales y Modelos Estructurales (LANAMME), al otro lado de la calle",
+            "stop_point": "SRID=4326;POINT (-84.04546950911886 9.93589305371453)",
+            "location_type": 0,
+            "wheelchair_boarding": 2,
+            "stop_heading": null,
+            "parent_station": "bUCR_LA"
         }
     },
     {
         "model": "feed.stopscreen",
-        "pk": "ingenieria-edificio",
+        "pk": 2,
         "fields": {
-            "name": "Facultad de Ingeniería (sentido norte)",
-            "description": "La parada que está del lado del edificio, con los buses que van hacia las deportivas.",
+            "name": "Facultad de Ingeniería",
+            "description": "",
             "orientation": "landscape",
             "ratio": "16:9",
             "size": 32,
             "has_audio": false,
-            "created_at": "2024-09-01T18:02:51.302Z",
-            "updated_at": "2024-09-02T04:01:30.984Z",
+            "created_at": "2024-10-17T21:41:16.517Z",
+            "updated_at": "2024-11-26T13:01:38.095Z",
             "is_active": true,
-            "stop": "UCR_0_04"
+            "stop": "bUCR_0_06",
+            "stop_slug": "ingenieria-edificio"
         }
     }
 ]
