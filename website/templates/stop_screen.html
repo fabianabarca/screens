@@ -11,73 +11,33 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'css/bucr.css' %}">
     <script src="https://kit.fontawesome.com/1ae7c4e024.js" crossorigin="anonymous"></script>
-    <style>
-        .fixed-bottom-right {
-            position: fixed;
-            bottom: 0;
-            right: 0;
-        }
-        .fixed-bottom-left {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-        }
-    </style>
 </head>
 
-<body>
+<body class="container">
     <!-- Header -->
-    <div class="bg-azul text-white px-5 py-5">
-        <div class="row align-items-center">
-            <div class="col-2">
-                <img src="{% static 'img/b_blanco.svg' %}" height="200px" alt="Símbolo bUCR">
-            </div>
-            <div class="col-7">
-                <h1 class="title">
-                    Facultad de <br> Ciencias Sociales
-                </h1>
-            </div>
-            <div class="col-3 text-end">
-                <h1 class="display-1" id="current-time"></h1>
-                <p class="lead">
-                    <i class="fa-solid fa-circle fa-fade"></i>
-                    Actualizaciones cada minuto
-                </p>
-            </div>
-        </div>
-    </div>
+    <h1 class="display-1 my-4"> 
+        <span class="fw-bold">{{ screen.name }}</span>
+        {% if stop.stop_heading %}
+        <span class="fs-2 text-muted text-uppercase fst-italic ms-3">
+            sentido {{ stop.get_stop_heading_display }}
+        </span>
+        {% endif %}
+    </h1>
+    
+    <h1 class="display-3" id="current-time"></h1>
+    <p class="lead">
+        <i class="fa-solid fa-circle fa-fade"></i>
+        Actualizaciones cada minuto
+    </p>
 
     <div class="px-5 py-5">
-        <!-- ETA table -->
-        <table id="eta" class="table display-1">
-            <tr>
-                <td class="align-middle"><span class="badge rounded-pill text-bg-dark">L1</span></td>
-                <td class="align-middle">Educación</td>
-                <td class="align-middle display-6">
-                    <i class="bi bi-person-fill"></i><i class="bi bi-person-fill"></i><i class="bi bi-person"></i>
-                </td>
-                <td class="align-middle"><span class="time fw-bold">Ahora</span></td>
-            </tr>
-            <tr>
-                <td class="align-middle"><span class="badge rounded-pill text-bg-secondary">L2</span></td>
-                <td class="align-middle">Artes Plásticas</td>
-                <td class="align-middle display-6">
-                    <i class="bi bi-person-fill"></i><i class="bi bi-person"></i><i class="bi bi-person"></i>
-                </td>
-                <td class="align-middle"><span class="time fw-bold">6</span> min</td>
-            </tr>
-            <tr>
-                <td class="align-middle"><span class="badge rounded-pill text-bg-dark">L1</span></td>
-                <td class="align-middle">Educación</td>
-                <td class="align-middle small"></td>
-                <td class="align-middle"><span class="time fw-bold">12</span> min</td>
-            </tr>
-        </table>
+        <!-- Esperando datos -->
+        <div id="alert" class="text-center display-5" role="alert"></div>
 
-        <!-- Footer
-        <div class="fixed-bottom-left text-center p-5">
-            Hola
-        </div> -->
+        <!-- ETA table -->
+        <table id="eta-table" class="table display-2"></table>
+
+        <!-- Sitio web -->
         <div class="fixed-bottom-right text-end p-5">
             <span class="display-3"><span class="fw-bold">bus</span>.ucr.ac.cr</span>
         </div>
@@ -85,7 +45,10 @@
 
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Hora en pantalla -->
     <script>
         function showCurrentTime() {
             const options = {
@@ -104,11 +67,12 @@
         // Initialize the display
         showCurrentTime();
     </script>
+
+    <!-- Actualización con WebSockets -->
     <script>
-        // Aquí un archivo para manejar las actualizaciones de la pantalla con WebSockets
-        // https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_client_applications
         // Crear un WebSocket 
-        const wsUrl = 'wss://' + window.location.host + '/ws/screen/{{ screen_id }}/';
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        const wsUrl = wsProtocol + window.location.host + '/ws/screen/stop/{{ screen.screen_id }}/';
         const screenSocket = new WebSocket(wsUrl);
 
         // Registrar la conexión abierta
@@ -116,20 +80,57 @@
             console.log('screens: Conexión abierta exitosamente en ' + wsUrl);
         };
 
-        // Manejo de eventos de mensajes
+        document.getElementById('alert').innerHTML = '<i class="fa-solid fa-bus fa-fade"></i> Esperando datos... <br> <span class="fs-3 text-muted fst-italic">Puede tardar hasta 20 segundos</span>';
+
+        // Manejo de eventos
         screenSocket.onmessage = function (event) {
             console.log('Mensaje recibido:', event.data);
-            const data = JSON.parse(event.data);
-            const message = data['message'];
-            if (message) {
-                document.getElementById('message').innerHTML = message;
+            const json = JSON.parse(event.data);
+            const data = json['message'];
+            
+            if (data) {
+                document.getElementById('alert').innerHTML = '';
+                maxRows = 3;
+                nRows = Math.min(data.length, maxRows);
+
+                if (nRows === 0) {
+                    // No hay más buses hoy
+                    document.getElementById('eta-table') = '';
+                    document.getElementById('alert').innerHTML = 'No hay más buses hoy';
+                } else {
+                    // Construir la tabla de tiempos de llegada
+                    for (let i = 0; i < nRows; i++) {
+                        const row = data[i]; // Assuming array is ordered by ascending arrival_time
+                        const etaTable = document.getElementById('eta-table');
+                        // If the size of the table is greater than zero, delete the i-th row
+                        if (etaTable.rows.length > i) {
+                            etaTable.deleteRow(i);
+                        }
+                        
+                        // Calcular el tiempo restante para la llegada del bus
+                        const currentTime = new Date();
+                        const arrivalTime = new Date(row.arrival_time); 
+                        const timeDifference = Math.round((arrivalTime - currentTime) / 60000); // min
+                        row.time_remaining = timeDifference;
+
+                        // Agregar una nueva fila de datos a la tabla
+                        const newRow = etaTable.insertRow(i);
+                        newRow.innerHTML = `
+                            <td>${row.route_short_name}</td>
+                            <td>${row.trip_headsign}</td>                
+                            <td>${row.time_remaining <= 1 ? '<span class="fw-bold fa-fade">Ahora</span>' : `<span class="fw-bold">${row.time_remaining}</span> min`}</td>
+                        `;
+                    }
+                }
             }
         };
 
+        // Cerrar la conexión antes de cerrar la ventana del navegador
         window.addEventListener('beforeunload', function (event) {
             screenSocket.close();
         });
     </script>
+
 </body>
 
 </html>

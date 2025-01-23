@@ -21,7 +21,7 @@ def stop_screen(request, stop_slug):
     screen = StopScreen.objects.get(stop_slug=stop_slug)
     stop = screen.stop
     context = {"screen": screen, "stop": stop}
-    return render(request, "test_screen.html", context)
+    return render(request, "stop_screen.html", context)
 
 
 def stop_screen_edit(request, stop_slug):

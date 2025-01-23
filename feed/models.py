@@ -173,7 +173,10 @@ class StopScreen(Screen):
     # TODO: fields for heading and for screen layout
 
     def __str__(self):
-        return f"{self.stop.stop_name} ({self.screen_id})"
+        if self.stop.stop_heading:
+            return f"{self.stop.stop_name} ({self.stop.stop_heading}) ({self.screen_id})"
+        else:
+            return f"{self.stop.stop_name} ({self.screen_id})"
 
 
 class StationScreen(Screen):
@@ -181,7 +184,7 @@ class StationScreen(Screen):
     station_slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return f"{self.station.station_name} ({self.screen_id})"
+        return f"{self.station.stop_name} ({self.screen_id})"
 
 
 class VehicleScreen(Screen):

@@ -1,6 +1,6 @@
 # Create your tasks here
 
-from feed.models import InfoProvider, StopScreen, Stop, Station
+from feed.models import InfoProvider, StopScreen, Stop, Station, StationScreen
 
 from celery import shared_task
 
@@ -13,12 +13,12 @@ from datetime import datetime
 
 @shared_task
 def update_stop_screens():
-    """Retrieves new real-time information and updates the connected screens."""
+    """Retrieves new real-time information and updates the connected screens fro a given stop."""
 
     info_provider = InfoProvider.objects.get(is_active=True)
-    screens = StopScreen.objects.filter(is_active=True)
+    stop_screens = StopScreen.objects.filter(is_active=True)
 
-    for screen in screens:
+    for screen in stop_screens:
 
         stop = screen.stop
 
@@ -38,6 +38,7 @@ def update_stop_screens():
             # update_message = json.loads(update_message)
             # --------------------------------------
 
+            # TODO: enviar todo el mensaje, no solo las próximas llegadas
             update_message = stop_message["next_arrivals"]
 
             # Send the message to the screen via websocket
@@ -57,7 +58,64 @@ def update_stop_screens():
     # Status monitor update
     message = {}
     message["last_update"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    message["active_stop_screens"] = len(screens)
+    message["active_stop_screens"] = len(stop_screens)
+
+    channel_layer = get_channel_layer()
+    async_to_sync(channel_layer.group_send)(
+        "status",
+        {
+            "type": "status_message",
+            "message": message,
+        },
+    )
+
+    return "Actualización de pantallas exitosa"
+
+
+@shared_task
+def update_station_screens():
+    """Retrieves new real-time information and updates the connected screens for a given station that comprises two or more stops."""
+
+    info_provider = InfoProvider.objects.get(is_active=True)
+    station_screens = StationScreen.objects.filter(is_active=True)
+
+    for screen in station_screens:
+
+        stops = Stop.objects.filter(parent_station=screen.station)
+        update_message = []
+
+        for stop in stops:
+
+            api_url = info_provider.api_url
+            endpoint = "next-trips"
+            url = api_url + endpoint
+            params = {"stop_id": stop.stop_id}
+            response = requests.get(url, params=params)
+
+            if response.status_code == 200:
+
+                stop_message = response.json()
+                update_message.append(stop_message)
+            
+            else:
+
+                print(f"Error: {response.status_code}")
+
+        # Send the message to the screen via websocket
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            f"screen_station_{screen.screen_id}",
+            {
+                "type": "screen_message",
+                "message": update_message,
+            },
+        )
+
+
+    # Status monitor update via WebSockets. TODO: Prometheus
+    message = {}
+    message["last_update"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    message["active_stop_screens"] = len(station_screens)
 
     channel_layer = get_channel_layer()
     async_to_sync(channel_layer.group_send)(
