@@ -31,15 +31,7 @@ def update_stop_screens():
         if response.status_code == 200:
 
             stop_message = response.json()
-
-            # --- Simulate a request to the API ---
-            # with open("test.json", "r") as file:
-            #    update_message = file.read()
-            # update_message = json.loads(update_message)
-            # --------------------------------------
-
-            # TODO: enviar todo el mensaje, no solo las próximas llegadas
-            update_message = stop_message["next_arrivals"]
+            update_message = stop_message
 
             # Send the message to the screen via websocket
             channel_layer = get_channel_layer()
