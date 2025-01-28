@@ -118,11 +118,38 @@
 
                         // Agregar una nueva fila de datos a la tabla
                         const newRow = etaTable.insertRow(i);
-                        newRow.innerHTML = `
-                            <td>${row.route_short_name}</td>
-                            <td>${row.trip_headsign}</td>                
-                            <td>${row.time_remaining <= 1 ? '<span class="fw-bold fa-fade">Ahora</span>' : `<span class="fw-bold">${row.time_remaining}</span> min`}</td>
-                        `;
+                        
+                        // Información de la ruta
+                        const routeCell = newRow.insertCell(0);
+                        routeCell.textContent = row.route_short_name;
+
+                        // Información del destino
+                        const headsignCell = newRow.insertCell(1);
+                        headsignCell.textContent = row.trip_headsign;
+
+                        // Información del tiempo restante
+                        const timeCell = newRow.insertCell(2);
+                        const timeSpan = document.createElement('span');
+                        if (row.time_remaining <= 1) {
+                            timeSpan.className = 'fw-bold fa-fade';
+                            timeSpan.textContent = 'Ahora';
+                            timeCell.appendChild(timeSpan);
+                        } else {
+                            timeSpan.className = 'fw-bold';
+                            timeSpan.textContent = row.time_remaining;
+                            timeCell.appendChild(timeSpan);
+                            timeCell.appendChild(document.createTextNode(' min'));
+                        }
+
+                        // Información del estado del bus
+                        const statusCell = newRow.insertCell(3);
+                        const statusIcon = document.createElement('i');
+                        if (row.in_progress) {
+                            statusIcon.className = 'fa-solid fa-spinner fa-spin';
+                        } else {
+                            statusIcon.className = 'fa-regular fa-clock';
+                        }
+                        statusCell.appendChild(statusIcon);
                     }
                 }
             }
